@@ -36,20 +36,31 @@ class Jwt
         $this->algorithm = $algorithm;
     }
 
-    public function getToken(
-        Session $session,
-        $expirationTime = null
-    ) {
+    /**
+     * @param Session $session
+     * @param null    $expirationTime
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public function getToken(Session $session, $expirationTime = null)
+    {
         $tokenData = $this->create(Services::CRYPT_KEY, $session->getIdentity(), $session->getStartTime(),
             $session->getExpirationTime());
 
         return $this->encode($tokenData);
     }
 
+    /**
+     * @param $token
+     *
+     * @return Session
+     * @throws \Exception
+     */
     public function getSession($token)
     {
         $tokenData = $this->decode($token);
-        return new Session($tokenData->iss, $tokenData->sub, $tokenData->iat, $tokenData->exp, $token);
+        return new Session($tokenData->sub, $tokenData->iat, $tokenData->exp, $token);
     }
 
     protected function create($issuer, $user, $iat, $exp)

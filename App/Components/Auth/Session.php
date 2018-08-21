@@ -10,24 +10,24 @@ class Session
     protected $_identity;
 
     /**
-     * @var string Account-type name of the session
-     */
-    protected $_accountTypeName;
-
-    /**
      * @var string Session Token
      */
     protected $_token;
+    /**
+     * @var int Session Token Start time
+     */
     protected $_startTime;
+    /**
+     * @var int Session Token expiration time
+     */
     protected $_expirationTime;
 
-    public function __construct($accountTypeName, $identity, $startTime, $expirationTime, $token = null)
+    public function __construct($identity, $startTime, $expirationTime, $token = null)
     {
-        $this->_accountTypeName = $accountTypeName;
-        $this->_identity        = $identity;
-        $this->_startTime       = $startTime;
-        $this->_expirationTime  = $expirationTime;
-        $this->_token           = $token;
+        $this->_identity       = $identity;
+        $this->_startTime      = $startTime;
+        $this->_expirationTime = $expirationTime;
+        $this->_token          = $token;
     }
 
     public function getIdentity()
