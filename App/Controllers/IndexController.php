@@ -17,7 +17,7 @@ class IndexController extends BaseController
      */
     public function errorAction()
     {
-
+        echo __METHOD__;
     }
 
 }

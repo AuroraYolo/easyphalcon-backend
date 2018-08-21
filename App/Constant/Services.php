@@ -28,4 +28,7 @@ class Services
     const VIEW = 'view';
     const EVENTS_MANAGER = 'eventsManager';
     const SIMPLE_VIEW = 'simple_view';
+
+    const ERROR_HELPER = "errorHelper";
+    const FORMAT_HELPER = "formatHelper";
 }

@@ -9,12 +9,5 @@ class AuthTokenMiddleWare extends ApiPlugin
 {
     public function beforeExecuteRoute(Event $event, Dispatcher $dispatcher)
     {
-        $annotations = $this->annotations->getMethod(
-            $dispatcher->getHandlerClass(),
-            $dispatcher->getActiveMethod()
-        );
-        foreach ($annotations as $annotation){
-
-        }
     }
 }

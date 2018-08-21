@@ -1,5 +1,5 @@
 <?php
-namespace Backend\Component\Enum;
+namespace Backend\Components;
 
 class ErrorCode
 {

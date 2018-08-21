@@ -1,5 +1,5 @@
 <?php
-namespace Backend\Component\Exception;
+namespace Backend\Components\Exception;
 
 class ApiException extends \Exception
 {

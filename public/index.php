@@ -2,11 +2,11 @@
 namespace Backend;
 
 use Backend\Bootstrap\Bootstrap;
+use Backend\Components\Http\Response;
 use Backend\Constant\Services;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Exception;
-use Phalcon\Http\Response;
 
 date_default_timezone_set('Etc/GMT-8');
 
@@ -55,12 +55,12 @@ try {
     $returnVal = $app->dispatcher->getReturnedValue();
     if ($returnVal !== null) {
         if (is_string($returnVal)) {
-            $response->setContent($returnVal)->send();
+            $response->setContent($returnVal);
         } else {
-            $response->setJsonContent($returnVal)->send();
+            $response->setJsonContent($returnVal);
         }
     } else {
-        echo $app->handle()->getContent();
+        $app->handle()->getContent();
     }
 } catch (\Throwable $ex) {
     $di       = $app->di ?? new FactoryDefault();
@@ -69,11 +69,12 @@ try {
         $response = new Response();
     }
     $isDebug = ENVIRONMENT == 'development' ? true : false;
-    echo $ex->getMessage();
+    $response->setErrorContent($ex, $isDebug);
     //TODO 开启调试模式打印错误信息
-} catch (Exception $ex) {
-    echo $ex->getMessage();
 }
 finally {
-
+    /** @var $response Response */
+    if (!$response->isSent()) {
+        $response->send();
+    }
 }

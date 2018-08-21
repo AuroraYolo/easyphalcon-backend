@@ -23,7 +23,7 @@ class App {
     private static $memcache;
 
     /**
-     * @var \Phalcon\Cache\Backend\Redis
+     * @var \Redis
      */
     private static $redis;
 
@@ -72,7 +72,7 @@ class App {
     /**
      * 返回redis对象
      *
-     * @return \Phalcon\Cache\Backend\Redis
+     * @return \Redis
      * @throws \Exception
      */
     public static function redis() {

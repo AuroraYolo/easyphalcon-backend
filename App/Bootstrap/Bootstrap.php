@@ -1,6 +1,9 @@
 <?php
 namespace Backend\Bootstrap;
 
+use Backend\Components\Http\ErrorHelper;
+use Backend\Components\Http\Request;
+use Backend\Components\Http\Response;
 use Backend\Constant\Services;
 use Backend\Middleware\AclMiddleWare;
 use Backend\Middleware\AuthTokenMiddleWare;
@@ -12,7 +15,6 @@ use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 use Phalcon\Db\Profiler;
 use Phalcon\Di\FactoryDefault as Di;
 use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Http\Response;
 use Phalcon\Loader;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
@@ -80,12 +82,13 @@ class Bootstrap extends Application
         $di = new Di();
         $di->setShared(Services::CONFIG, $config);
         $di->setShared(Services::ROUTER, new Router);
-        $di->setShared(Services::RESPONSE, new Response());
+        $di->setShared(Services::REQUEST, new Request);
+        $di->setShared(Services::RESPONSE, new Response);
         $di->setShared(Services::DISPATCHER, function () use ($config)
         {
             $dispatcher    = new Dispatcher();
             $eventsManager = new EventsManager();
-            $eventsManager->attach('dispatch',new AclMiddleWare);
+            $eventsManager->attach('dispatch', new AclMiddleWare);
             $eventsManager->attach('dispatch', new AuthTokenMiddleWare);
             $eventsManager->attach('dispatch', new NotFoundMiddleWare);
             $dispatcher->setEventsManager($eventsManager);
@@ -291,6 +294,7 @@ class Bootstrap extends Application
             $modelManager->setEventsManager($di->get(Services::EVENTS_MANAGER));
             return $modelManager;
         }, true);
+        $di->setShared(Services::ERROR_HELPER, new ErrorHelper);
         $this->setDI($di);
     }
 }
