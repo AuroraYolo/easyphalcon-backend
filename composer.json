@@ -1,0 +1,32 @@
+{
+  "name": "heping/easyphalcon-backend",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "A Phalcon Admin Project",
+  "type": "project",
+  "keywords": [
+    "phalcon",
+    "admin"
+  ],
+  "support": {
+    "email": "847050412@qq.com"
+  },
+  "autoload": {
+    "psr-4": {
+      "": ""
+    }
+  },
+  "require": {
+    "firebase/php-jwt": "^5.0.0",
+    "php": "^7.2",
+    "ext-phalcon": "^3.0",
+    "ext-swoole": "^4.0.3",
+    "phpunit/phpunit": "7.2.7"
+  },
+  "authors": [
+    {
+      "name": "Peter",
+      "email": "847050412@qq.com"
+    }
+  ]
+}
