@@ -45,7 +45,7 @@ class Response extends \Phalcon\Http\Response
                 'controller'     => $dispatcher->getControllerName(),
                 'action'         => $dispatcher->getActionName(),
                 'request_method' => $request->getMethod(),
-                'params'         => $request->getQuery()
+                'params'         => $request->getPostedData()
             ];
             if ($throwable instanceof ApiException && $throwable->getDeveloperInfo() != null) {
                 $developersResponse['info'] = $throwable->getDeveloperInfo();
