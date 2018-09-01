@@ -1,6 +1,7 @@
 <?php
 namespace Backend\Bootstrap;
 
+use Backend\Components\Acl\Access;
 use Backend\Components\Http\ErrorHelper;
 use Backend\Components\Http\Request;
 use Backend\Components\Http\Response;
@@ -14,13 +15,13 @@ use Phalcon\Crypt;
 use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 use Phalcon\Db\Profiler;
 use Phalcon\Di\FactoryDefault as Di;
+use Phalcon\Di\Service;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Loader;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Model\Manager as ModelManager;
 use Phalcon\Mvc\Model\MetaData\Files as MetaDataFile;
-use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Simple as SimpleView;
@@ -85,6 +86,7 @@ class Bootstrap extends Application
         {
             return include APP_PATH . '/Config/Router.php';
         });
+        $di->setShared(Services::ACL, new Access);
         $di->setShared(Services::REQUEST, new Request);
         $di->setShared(Services::RESPONSE, new Response);
         $di->setShared(Services::DISPATCHER, function () use ($config)
