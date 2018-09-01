@@ -81,7 +81,10 @@ class Bootstrap extends Application
     {
         $di = new Di();
         $di->setShared(Services::CONFIG, $config);
-        $di->setShared(Services::ROUTER, new Router);
+        $di->setShared(Services::ROUTER, function ()
+        {
+            return include APP_PATH . '/Config/Router.php';
+        });
         $di->setShared(Services::REQUEST, new Request);
         $di->setShared(Services::RESPONSE, new Response);
         $di->setShared(Services::DISPATCHER, function () use ($config)
@@ -165,7 +168,6 @@ class Bootstrap extends Application
                         $maxExecuteTime = isset($config->db->max_execute_time) ?? 0;
                         $scale          = intval($config->db->scale);
                         if (bccomp($executeTime, $maxExecuteTime, $scale) != -1) {
-
                         }
                     }
                 });
@@ -210,7 +212,6 @@ class Bootstrap extends Application
                         $maxExecuteTime = isset($config->db->max_execute_time) ?? 0;
                         $scale          = intval($config->db->scale);
                         if (bccomp($executeTime, $maxExecuteTime, $scale) != -1) {
-                            Logger::logger('db')->debug("$sql $params $executeTime");
                         }
                     }
                 });

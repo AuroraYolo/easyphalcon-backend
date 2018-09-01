@@ -47,12 +47,11 @@ class AclMiddleWare extends ApiPlugin
 
     public function beforeExecuteRoute(Event $event, Dispatcher $dispatcher)
     {
-        $allowed = false;
-        $data = $this->getMatchedPoint();
+        $allowed     = false;
+        $data        = $this->getMatchedPoint();
         $pointScopes = $data[Map::SCOPES];
-        if(empty($pointScopes)){ //如果point 没有配置scopes,则公开访问
+        if (empty($pointScopes)) { //如果point 没有配置scopes,则公开访问
             return true;
         }
-
     }
 }
