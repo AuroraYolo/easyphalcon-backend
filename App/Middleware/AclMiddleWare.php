@@ -1,7 +1,6 @@
 <?php
 namespace Backend\Middleware;
 
-use Backend\Components\Acl\Access;
 use Backend\Components\Core\ApiPlugin;
 use Backend\Components\ErrorCode;
 use Backend\Components\Exception\ApiException;
