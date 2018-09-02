@@ -2,6 +2,7 @@
 namespace Backend\Bootstrap;
 
 use Backend\Components\Acl\Access;
+use Backend\Components\Auth\Manager;
 use Backend\Components\Http\ErrorHelper;
 use Backend\Components\Http\Request;
 use Backend\Components\Http\Response;
@@ -113,6 +114,7 @@ class Bootstrap extends Application
             );
             return $view;
         });
+        $di->setShared(Services::AUTH_MANAGER, new Manager);
         $di->set(Services::VIEW, function () use ($config)
         {
             $view = new View();

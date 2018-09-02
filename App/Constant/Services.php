@@ -29,6 +29,7 @@ class Services
     const EVENTS_MANAGER = 'eventsManager';
     const SIMPLE_VIEW = 'simple_view';
     const ACL = 'acl';
+    const AUTH_MANAGER = "authManager";
 
     const ERROR_HELPER = "errorHelper";
     const FORMAT_HELPER = "formatHelper";

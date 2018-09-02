@@ -2,7 +2,9 @@
 namespace Backend\Components\Core;
 
 use Backend\Components\Acl\Access;
-use Phalcon\Http\Request;
+use Backend\Components\Auth\Jwt\Jwt;
+use Backend\Components\Auth\Manager;
+use Backend\Components\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\User\Plugin;
 
@@ -11,7 +13,9 @@ use Phalcon\Mvc\User\Plugin;
  * @package Backend\Components\Core
  * @property Request  $request
  * @property Response $response
- * @property Access      $acl
+ * @property Access   $acl
+ * @property Jwt      $jwt
+ * @property Manager  $authManager
  */
 class ApiPlugin extends Plugin
 {

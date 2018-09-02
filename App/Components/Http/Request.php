@@ -62,7 +62,7 @@ class Request extends \Phalcon\Http\Request
      */
     public function getToken()
     {
-        $authToken = $this->getHeader('token');
+        $authToken = $this->getHeader('jwt');
         return $authToken ?? null;
     }
 
