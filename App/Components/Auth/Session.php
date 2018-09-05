@@ -1,5 +1,5 @@
 <?php
-namespace Backend\Component\Auth;
+namespace Backend\Components\Auth;
 
 class Session
 {

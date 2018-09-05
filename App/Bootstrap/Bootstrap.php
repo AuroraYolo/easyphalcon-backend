@@ -2,6 +2,7 @@
 namespace Backend\Bootstrap;
 
 use Backend\Components\Acl\Access;
+use Backend\Components\Auth\Jwt\Jwt;
 use Backend\Components\Auth\Manager;
 use Backend\Components\Http\ErrorHelper;
 use Backend\Components\Http\Request;
@@ -60,7 +61,7 @@ class Bootstrap extends Application
             'bootstrapDir'  => $config->application->bootstrapDir,
             'commonsDir'    => $config->application->commonsDir,
             'controllerDir' => $config->application->controllerDir,
-            'componentDir'  => $config->application->componentDir,
+            'componentsDir'  => $config->application->componentsDir,
             'configDir'     => $config->application->configDir,
             'fractalDir'    => $config->application->fractalDir,
             'helperDir'     => $config->application->helperDir,
@@ -71,13 +72,18 @@ class Bootstrap extends Application
         $loader->registerNamespaces([
             'Backend' => APP_PATH
         ]);
+        $loader->registerFiles(
+            [
+                $config->application->vendorAutoLoaderFile
+            ]
+        );
         $loader->register();
     }
 
     /**
-     * @description Register services
-     *
      * @param Config $config
+     *
+     * @throws \Exception
      */
     protected function registerServices(Config $config)
     {
@@ -87,6 +93,7 @@ class Bootstrap extends Application
         {
             return include APP_PATH . '/Config/Router.php';
         });
+        $di->setShared(Services::ERROR_HELPER, new ErrorHelper);
         $di->setShared(Services::ACL, new Access);
         $di->setShared(Services::REQUEST, new Request);
         $di->setShared(Services::RESPONSE, new Response);
@@ -94,9 +101,10 @@ class Bootstrap extends Application
         {
             $dispatcher    = new Dispatcher();
             $eventsManager = new EventsManager();
-            $eventsManager->attach('dispatch', new AclMiddleWare);
             $eventsManager->attach('dispatch', new AuthTokenMiddleWare);
             $eventsManager->attach('dispatch', new NotFoundMiddleWare);
+            $eventsManager->attach('dispatch', new AclMiddleWare);
+
             $dispatcher->setEventsManager($eventsManager);
             $dispatcher->setDefaultNamespace("Backend\\Controllers\\");
             return $dispatcher;
@@ -115,6 +123,10 @@ class Bootstrap extends Application
             return $view;
         });
         $di->setShared(Services::AUTH_MANAGER, new Manager);
+        /**
+         *
+         */
+        $di->setShared(Services::JWT, new Jwt(Jwt::ALGORITHM_RS256));
         $di->set(Services::VIEW, function () use ($config)
         {
             $view = new View();
@@ -299,7 +311,7 @@ class Bootstrap extends Application
             $modelManager->setEventsManager($di->get(Services::EVENTS_MANAGER));
             return $modelManager;
         }, true);
-        $di->setShared(Services::ERROR_HELPER, new ErrorHelper);
+
         $this->setDI($di);
     }
 }

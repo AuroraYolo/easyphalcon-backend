@@ -41,7 +41,7 @@ class AclMiddleWare extends ApiPlugin
                         $this->_matchedRouteNameParts[self::POINT] = $matchedRouteNamePart->getArguments();
                     }
                 }
-                return $this->_matchedRouteNameParts[self::POINT];
+                return $this->_matchedRouteNameParts[self::POINT] ?? null;
             }
             return null;
         }

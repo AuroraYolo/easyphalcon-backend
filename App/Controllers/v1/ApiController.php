@@ -26,7 +26,7 @@ class ApiController extends BaseController
      * )
      */
     public function listAction(){
-
+        echo __METHOD__;
     }
 
 }

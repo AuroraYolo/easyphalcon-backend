@@ -1,5 +1,6 @@
 <?php
 namespace Backend\Components\Core;
+use Backend\Constant\Services;
 use \Phalcon\Di;
 class App {
     /**
@@ -46,7 +47,7 @@ class App {
      */
     public static function globalConfig() {
         if(is_null(self::$globalConfig)) {
-            self::$globalConfig = self::getDI()->getShared('globalConfig');
+            self::$globalConfig = self::getDI()->getShared(Services::CONFIG);
         }
         return self::$globalConfig;
     }

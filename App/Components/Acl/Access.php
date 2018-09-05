@@ -13,6 +13,9 @@ use Phalcon\Acl\Adapter\Memory as AclMemory;
  */
 class Access
 {
+    /**
+     * @var array 公共资源可访问
+     */
     protected $publicResources = [
         'about'    => ['index'],
         'register' => ['index'],
@@ -20,6 +23,9 @@ class Access
         'session'  => ['index', 'register', 'start', 'end'],
         'contact'  => ['index', 'send'],
     ];
+    /**
+     * @var array 私人资源
+     */
     protected $privateResources = [
         'index' => ['edit']
     ];

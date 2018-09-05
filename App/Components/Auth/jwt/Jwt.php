@@ -1,8 +1,9 @@
 <?php
 namespace Backend\Components\Auth\Jwt;
 
-use Backend\Component\Auth\Session;
+use Backend\Components\Auth\Session;
 use Backend\Components\Core\App;
+use Backend\Components\ErrorCode;
 use Backend\Constant\Services;
 use Firebase\JWT\JWT as JwtCore;
 
@@ -23,11 +24,11 @@ class Jwt
      *
      * @throws \Exception
      */
-    public function __construct($algorithm = self::ALGORITHM_HS256)
+    public function __construct($algorithm = self::ALGORITHM_RS256)
     {
-        if (!class_exists('\Firebase\JWT\JWT')) {
-            throw new \Exception(ErrorCode::GENERAL_SYSTEM, 'JWT class is needed for the JWT token parser');
-        }
+        //        if (!class_exists('\Firebase\JWT\JWT')) {
+        //            throw new \Exception(ErrorCode::GENERAL_SYSTEM, 'JWT class is needed for the JWT token parser');
+        //        }
         $this->algorithm = $algorithm;
     }
 
@@ -47,7 +48,6 @@ class Jwt
     {
         $tokenData = $this->create(Services::CRYPT_KEY, $session->getIdentity(), $session->getStartTime(),
             $session->getExpirationTime());
-
         return $this->encode($tokenData);
     }
 
@@ -142,9 +142,7 @@ class Jwt
     }
 
     /**
-     * 获取密钥
      * @return bool|resource
-     * @throws \Exception
      */
     private function getPrivateKey()
     {

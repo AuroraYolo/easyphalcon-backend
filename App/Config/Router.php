@@ -3,6 +3,7 @@ namespace Backend\Config;
 
 use Backend\Controllers\V1\ApiController;
 use Backend\Controllers\V1\IndexController;
+use Backend\Controllers\V1\SignController;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Annotations as RouterAnnotations;
 
@@ -23,5 +24,6 @@ $router->add('/', [
 ]);
 $router->addResource(substr(ApiController::class, 0, -10), '/api/v1/api');
 $router->addResource(substr(IndexController::class, 0, -10), '/api/v1/index');
+$router->addResource(substr(SignController::class, 0, -10), '/api/v1/sign');
 return $router;
 

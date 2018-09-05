@@ -1,7 +1,6 @@
 <?php
 namespace Backend\Components\Auth;
 
-use Backend\Component\Auth\Session;
 use Backend\Components\Core\ApiPlugin;
 use Backend\Components\ErrorCode;
 use Backend\Components\Exception\ApiException;
