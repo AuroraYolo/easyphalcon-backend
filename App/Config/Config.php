@@ -8,7 +8,7 @@ return new Config([
         'commonsDir'           => dirname(__DIR__) . '/',
         'vendorAutoLoaderFile' => dirname((dirname(__DIR__))) . '/vendor/autoload.php',
         'bootstrapDir'         => dirname(dirname(__DIR__)) . '/Bootstrap/',
-        'componentsDir'         => dirname(dirname(__DIR__)) . '/Components/',
+        'componentsDir'        => dirname(dirname(__DIR__)) . '/Components/',
         'controllerDir'        => dirname(dirname(__DIR__)) . '/Controller/',
         'configDir'            => dirname(dirname(__DIR__)) . '/Config/',
         'fractalDir'           => dirname(dirname(__DIR__)) . '/Fractal/',
@@ -17,6 +17,7 @@ return new Config([
         'viewsDir'             => dirname(dirname(__DIR__)) . '/Views/',
         'logsDir'              => dirname(dirname(__DIR__)) . '/Logs/',
         'privateDir'           => dirname(dirname(__DIR__)) . '/Private/',
+        'servicesDir'          => dirname(dirname(__DIR__)) . '/Services/',
     ],
     'jwt'         => [
         'private_key' => dirname(__DIR__) . '/Private/jwt/' . ENVIRONMENT . '/rsa_private_key.pem',

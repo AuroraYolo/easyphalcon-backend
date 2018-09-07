@@ -24,12 +24,12 @@ class SignController extends BaseController
      */
     public function inAction()
     {
-        $user      = 'heping';
-        $pwd       = '123456';
-        $startTime = time();
-        $session   = new Session(1, $startTime, $startTime + 86400);
-        $token = $this->jwt->getToken($session);
-        $session->setToken($token);
-        
+//        $user      = 'heping';
+//        $pwd       = '123456';
+//        $startTime = time();
+//        $session   = new Session(1, $startTime, $startTime + 86400);
+//        $token     = $this->jwt->getToken($session);
+//        $session->setToken($token);
+//        $currentSession = $this->jwt->getSession($token);
     }
 }

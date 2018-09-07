@@ -16,4 +16,5 @@ class BaseController extends Controller
     public function initialize()
     {
     }
+
 }
