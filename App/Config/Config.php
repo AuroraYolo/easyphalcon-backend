@@ -23,4 +23,8 @@ return new Config([
         'private_key' => dirname(__DIR__) . '/Private/jwt/' . ENVIRONMENT . '/rsa_private_key.pem',
         'public_key'  => dirname(__DIR__) . '/Private/jwt/' . ENVIRONMENT . '/rsa_public_key.pem'
     ],
+    'db'          => [
+        'max_execute_time' => 5,
+        'scale'            => 0.1
+    ]
 ]);

@@ -50,7 +50,7 @@ class Bootstrap extends Application
     }
 
     /**
-     * @description Register autoloaders
+     * @description Register AutoLoaders
      *
      * @param Config $config
      */
@@ -61,7 +61,7 @@ class Bootstrap extends Application
             'bootstrapDir'  => $config->application->bootstrapDir,
             'commonsDir'    => $config->application->commonsDir,
             'controllerDir' => $config->application->controllerDir,
-            'componentsDir'  => $config->application->componentsDir,
+            'componentsDir' => $config->application->componentsDir,
             'configDir'     => $config->application->configDir,
             'fractalDir'    => $config->application->fractalDir,
             'helperDir'     => $config->application->helperDir,
@@ -88,6 +88,7 @@ class Bootstrap extends Application
     protected function registerServices(Config $config)
     {
         $di = new Di();
+        $di->setShared(Services::RESPONSE, new Response);
         $di->setShared(Services::CONFIG, $config);
         $di->setShared(Services::ROUTER, function ()
         {
@@ -96,15 +97,14 @@ class Bootstrap extends Application
         $di->setShared(Services::ERROR_HELPER, new ErrorHelper);
         $di->setShared(Services::ACL, new Access);
         $di->setShared(Services::REQUEST, new Request);
-        $di->setShared(Services::RESPONSE, new Response);
+
         $di->setShared(Services::DISPATCHER, function () use ($config)
         {
             $dispatcher    = new Dispatcher();
             $eventsManager = new EventsManager();
-            $eventsManager->attach('dispatch', new AuthTokenMiddleWare);
-            $eventsManager->attach('dispatch', new NotFoundMiddleWare);
-            $eventsManager->attach('dispatch', new AclMiddleWare);
-
+            //            $eventsManager->attach('dispatch', new AuthTokenMiddleWare);
+            //            $eventsManager->attach('dispatch', new NotFoundMiddleWare);
+            //            $eventsManager->attach('dispatch', new AclMiddleWare);
             $dispatcher->setEventsManager($eventsManager);
             $dispatcher->setDefaultNamespace("Backend\\Controllers\\");
             return $dispatcher;
@@ -191,50 +191,50 @@ class Bootstrap extends Application
                 return $db;
             }
         });
-        $di->setShared('dbSlave', function () use ($config)
-        {
-            $db = new DbAdapter([
-                'host'     => $config->dbSlave->host,
-                'username' => $config->dbSlave->username,
-                'password' => $config->dbSlave->password,
-                'dbname'   => $config->dbSlave->dbname,
-                'charset'  => 'utf8mb4',
-                'options'  => [
-                    \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4',
-                    \PDO::ATTR_EMULATE_PREPARES   => false,
-                    \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
-                ]
-            ]);
-
-            if (defined('ENVIRONMENT') && ENVIRONMENT == 'development') {
-                $eventsManager = new EventsManager();
-                $profiler      = new Profiler();
-                $eventsManager->attach('db', function ($event, $connection) use ($profiler, $config)
-                {
-                    if ($event->getType() == 'beforeQuery') {
-                        $profiler->startProfile($connection->getSQLStatement());
-                    }
-                    if ($event->getType() == 'afterQuery') {
-                        $profiler->stopProfile();
-                        $profile = $profiler->getLastProfile();
-                        //获取sql对象
-                        $sql = $profile->getSqlStatement();
-                        //获取查询参数
-                        $params = $profile->getSqlVariables();
-                        $params = json_encode($params);
-                        //获取执行时间
-                        $executeTime = $profile->getTotalElapsedSeconds();
-                        $profiler->reset();
-                        $maxExecuteTime = isset($config->db->max_execute_time) ?? 0;
-                        $scale          = intval($config->db->scale);
-                        if (bccomp($executeTime, $maxExecuteTime, $scale) != -1) {
-                        }
-                    }
-                });
-                $db->setEventsManager($eventsManager);
-                return $db;
-            }
-        });
+        //        $di->setShared('dbSlave', function () use ($config)
+        //        {
+        //            $db = new DbAdapter([
+        //                'host'     => $config->dbSlave->host,
+        //                'username' => $config->dbSlave->username,
+        //                'password' => $config->dbSlave->password,
+        //                'dbname'   => $config->dbSlave->dbname,
+        //                'charset'  => 'utf8mb4',
+        //                'options'  => [
+        //                    \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4',
+        //                    \PDO::ATTR_EMULATE_PREPARES   => false,
+        //                    \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
+        //                ]
+        //            ]);
+        //
+        //            if (defined('ENVIRONMENT') && ENVIRONMENT == 'development') {
+        //                $eventsManager = new EventsManager();
+        //                $profiler      = new Profiler();
+        //                $eventsManager->attach('db', function ($event, $connection) use ($profiler, $config)
+        //                {
+        //                    if ($event->getType() == 'beforeQuery') {
+        //                        $profiler->startProfile($connection->getSQLStatement());
+        //                    }
+        //                    if ($event->getType() == 'afterQuery') {
+        //                        $profiler->stopProfile();
+        //                        $profile = $profiler->getLastProfile();
+        //                        //获取sql对象
+        //                        $sql = $profile->getSqlStatement();
+        //                        //获取查询参数
+        //                        $params = $profile->getSqlVariables();
+        //                        $params = json_encode($params);
+        //                        //获取执行时间
+        //                        $executeTime = $profile->getTotalElapsedSeconds();
+        //                        $profiler->reset();
+        //                        $maxExecuteTime = isset($config->db->max_execute_time) ?? 0;
+        //                        $scale          = intval($config->db->scale);
+        //                        if (bccomp($executeTime, $maxExecuteTime, $scale) != -1) {
+        //                        }
+        //                    }
+        //                });
+        //                $db->setEventsManager($eventsManager);
+        //                return $db;
+        //            }
+        //        });
         $di->setShared(Services::LOG, function () use ($config)
         {
             $logger = new LoggerAdapterFile($config->application->logsDir . date('Ymd') . '.log');

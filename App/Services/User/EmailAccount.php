@@ -21,4 +21,15 @@ class EmailAccount implements AccountType
     {
         // TODO: Implement authenticate() method.
     }
+
+    /**
+     * @return object
+     * @throws \ReflectionException
+     */
+    public static function getInstance()
+    {
+        // TODO: Implement getInstance() method.
+        $reflector = new \ReflectionClass(EmailAccount::class);
+        return $reflector->newInstance();
+    }
 }

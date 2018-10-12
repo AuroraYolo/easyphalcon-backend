@@ -56,7 +56,6 @@ class AclMiddleWare extends ApiPlugin
      */
     public function beforeExecuteRoute(Event $event, Dispatcher $dispatcher)
     {
-
         $allowed = false;
         /**
          * 模拟通过客户端信息判断用户角色

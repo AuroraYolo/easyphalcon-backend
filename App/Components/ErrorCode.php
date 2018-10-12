@@ -29,6 +29,7 @@ class ErrorCode
      */
     const DATA_FAILED = 4010;
     const DATA_NOT_FOUND = 4020;
+    const ACCOUNT_EXISTS = 4030;
 
     /**
      * 服务器错误

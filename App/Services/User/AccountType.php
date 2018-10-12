@@ -23,4 +23,10 @@ interface AccountType
      * @return  bool Authentication successful
      */
     public function authenticate($identity);
+
+    /**
+     *
+     * @return object  Get Instance
+     */
+    public static function getInstance();
 }
