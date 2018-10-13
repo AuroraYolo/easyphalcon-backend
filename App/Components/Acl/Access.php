@@ -17,17 +17,14 @@ class Access
      * @var array 公共资源可访问
      */
     protected $publicResources = [
-        'about'    => ['index'],
-        'register' => ['index'],
-        'errors'   => ['show404', 'show500'],
-        'session'  => ['index', 'register', 'start', 'end'],
-        'contact'  => ['index', 'send'],
+        //登录
+        '/api/v1/sign' => ['in'],
+        '/api/v1/user' => ['register']
     ];
     /**
      * @var array 私人资源
      */
     protected $privateResources = [
-        'index' => ['edit']
     ];
 
     public function __construct()

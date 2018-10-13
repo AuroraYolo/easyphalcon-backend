@@ -32,6 +32,7 @@ class Manager extends ApiPlugin
      */
     public function authenticateToken($token)
     {
+        //Todo 从redis中查询是否存在,不存在return，从而来确保token的时效性
         try {
             $session = $this->jwt->getSession($token);
         } catch (\Exception $ex) {

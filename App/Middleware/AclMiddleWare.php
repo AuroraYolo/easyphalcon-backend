@@ -56,7 +56,6 @@ class AclMiddleWare extends ApiPlugin
      */
     public function beforeExecuteRoute(Event $event, Dispatcher $dispatcher)
     {
-        $allowed = false;
         /**
          * 模拟通过客户端信息判断用户角色
          */
@@ -64,20 +63,19 @@ class AclMiddleWare extends ApiPlugin
         /**
          * 通过ACL列表是否具备访问权限
          */
-        $acl = $this->acl->getAcl();
-
-        $allowed = $acl->isAllowed($auth, $dispatcher->getControllerName(), $dispatcher->getActionName());
+        $acl     = $this->acl->getAcl();
+        $allowed = $acl->isAllowed($auth, substr($this->router->getRewriteUri(), 0, strrpos($this->router->getRewriteUri(), '/')), $this->router->getActionName());
         if ($allowed) {
             return true;
         }
         /**
          * 通过注解判断是否能够访问
          */
-        $data        = $this->getMatchedPoint();
-        $pointScopes = $data[Map::SCOPES];
-        if (empty($pointScopes)) { //如果point 没有配置scopes,则公开访问
-            return true;
-        }
+//        $data        = $this->getMatchedPoint();
+//        $pointScopes = $data[Map::SCOPES];
+//        if (empty($pointScopes)) { //如果point 没有配置scopes,则公开访问
+//            return true;
+//        }
         throw new ApiException(ErrorCode::ACCESS_DENIED);
     }
 }

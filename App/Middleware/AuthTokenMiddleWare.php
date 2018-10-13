@@ -16,7 +16,7 @@ class AuthTokenMiddleWare extends ApiPlugin
      */
     public function beforeExecuteRoute(Event $event, Dispatcher $dispatcher)
     {
-        //先判断是否携带token  判断token的过期时间
+        //先判断是否携带token  判断token的过期时间 验证token
         $token = $this->request->getToken();
         if ($token) {
             return $this->authManager->authenticateToken($token);

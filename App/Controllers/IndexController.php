@@ -20,10 +20,4 @@ class IndexController extends BaseController
         echo __METHOD__;
     }
 
-    public function indexAction()
-
-    {
-        echo __METHOD__;
-    }
-
 }

@@ -90,6 +90,17 @@ class Bootstrap extends Application
         $di = new Di();
         $di->setShared(Services::RESPONSE, new Response);
         $di->setShared(Services::CONFIG, $config);
+        $di->setShared(Services::DISPATCHER, function () use ($config)
+        {
+            $dispatcher    = new Dispatcher();
+            $eventsManager = new EventsManager();
+            $eventsManager->attach('dispatch', new AuthTokenMiddleWare);
+            $eventsManager->attach('dispatch', new AclMiddleWare);
+            $eventsManager->attach('dispatch', new NotFoundMiddleWare);
+            $dispatcher->setEventsManager($eventsManager);
+            $dispatcher->setDefaultNamespace("Backend\\Controllers\\");
+            return $dispatcher;
+        });
         $di->setShared(Services::ROUTER, function ()
         {
             return include APP_PATH . '/Config/Router.php';
@@ -98,17 +109,6 @@ class Bootstrap extends Application
         $di->setShared(Services::ACL, new Access);
         $di->setShared(Services::REQUEST, new Request);
 
-        $di->setShared(Services::DISPATCHER, function () use ($config)
-        {
-            $dispatcher    = new Dispatcher();
-            $eventsManager = new EventsManager();
-            //            $eventsManager->attach('dispatch', new AuthTokenMiddleWare);
-            //            $eventsManager->attach('dispatch', new NotFoundMiddleWare);
-            //            $eventsManager->attach('dispatch', new AclMiddleWare);
-            $dispatcher->setEventsManager($eventsManager);
-            $dispatcher->setDefaultNamespace("Backend\\Controllers\\");
-            return $dispatcher;
-        });
         $di->setShared(Services::SIMPLE_VIEW, function () use ($config)
         {
             $view = new SimpleView();

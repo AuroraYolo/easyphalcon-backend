@@ -30,13 +30,6 @@ class User extends Base
         return 'account_user';
     }
 
-    public function add($entity)
-    {
-        if ($this->db()->insertAsDict(self::getSource(), $entity)) {
-            return $this->db()->lastInsertId();
-        }
-    }
-
     /**
      * 校验密码
      *
