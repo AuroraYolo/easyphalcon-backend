@@ -8,6 +8,8 @@ php版本要求>=7.0
 phaclon版本要求>=3.0
 
 Nginx 配置:
+
+
 server {
     listen 80;
     charset utf-8;
