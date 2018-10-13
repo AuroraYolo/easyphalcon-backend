@@ -1,6 +1,8 @@
 <?php
 namespace Backend\Controllers\Sys;
 
+use Backend\Components\ErrorCode;
+use Backend\Components\Exception\ApiException;
 use Backend\Controllers\BaseController;
 
 /**
@@ -33,7 +35,9 @@ class SysManageController extends BaseController
     public function editAction()
     {
         $data = $this->request->getPostedData('post');
-        if(!$data['name']||!$data[''])
+        if (!$data['name'] || !$data['desc'] || !$data['domain']) {
+            throw new ApiException(ErrorCode::POST_DATA_NOT_PROVIDED);
+        }
     }
 
 }
