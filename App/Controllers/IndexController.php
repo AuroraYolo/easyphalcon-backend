@@ -20,4 +20,9 @@ class IndexController extends BaseController
         echo __METHOD__;
     }
 
+
+    public function indexAction(){
+        phpinfo();
+    }
+
 }

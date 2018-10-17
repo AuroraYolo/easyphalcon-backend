@@ -14,4 +14,9 @@ class RoleStaff extends Base
      * @var int $id
      */
     public $id;
+
+    public function getSource()
+    {
+        return 'auth_role_staff';
+    }
 }

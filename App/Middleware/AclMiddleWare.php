@@ -68,14 +68,18 @@ class AclMiddleWare extends ApiPlugin
         if ($allowed) {
             return true;
         }
+        $token = $this->request->getToken();
+        if ($token) {
+            return $this->authManager->authenticateToken($token);
+        }
         /**
          * 通过注解判断是否能够访问
          */
-//        $data        = $this->getMatchedPoint();
-//        $pointScopes = $data[Map::SCOPES];
-//        if (empty($pointScopes)) { //如果point 没有配置scopes,则公开访问
-//            return true;
-//        }
+        //        $data        = $this->getMatchedPoint();
+        //        $pointScopes = $data[Map::SCOPES];
+        //        if (empty($pointScopes)) { //如果point 没有配置scopes,则公开访问
+        //            return true;
+        //        }
         throw new ApiException(ErrorCode::ACCESS_DENIED);
     }
 }

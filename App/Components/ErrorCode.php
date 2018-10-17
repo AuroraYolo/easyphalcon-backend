@@ -36,4 +36,5 @@ class ErrorCode
      */
     const POST_DATA_NOT_PROVIDED = 5010;
     const POST_DATA_INVALID = 5020;
+
 }

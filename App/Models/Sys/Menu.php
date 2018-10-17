@@ -14,4 +14,10 @@ class Menu extends Base
      * @var int $id
      */
     public $id;
+
+
+    public function getSource()
+    {
+        return 'auth_ms_menu';
+    }
 }
