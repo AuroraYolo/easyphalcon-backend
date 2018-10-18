@@ -8,85 +8,85 @@ namespace Backend\Components\Validation;
 class Validation extends \Phalcon\Validation
 {
     /**
-     * 验证类
+     * 验证组件
      *
      * @var array $validation_types
      */
     protected static $validation_types = [
         // Check for alphanumeric character(s)
-        'alnum'        => [
+        ValidateType::ALNUM         => [
             'validator' => 'Phalcon\\Validation\\Validator\\Alnum'
         ],
         // Check for alphabetic character(s)
-        'alpha'        => [
+        ValidateType:: ALPHA        => [
             'validator' => 'Phalcon\\Validation\\Validator\\Alpha'
         ],
         // Validates that a value is between an inclusive range of two values.
-        'between'      => [
+        ValidateType::BETWEEN       => [
             'validator' => 'Phalcon\\Validation\\Validator\\Between'
         ],
         // Calls user function for validation
-        'callback'     => [
+        ValidateType::CALLBACK      => [
             'validator' => 'Phalcon\\Validation\\Validator\\Callback'
         ],
         // Checks that two values have the same value
-        'confirmation' => [
+        ValidateType::CONFIRMATION  => [
             'validator' => 'Phalcon\\Validation\\Validator\\Confirmation'
         ],
         // Checks if a value has a valid credit card number
-        'creditcard'   => [
+        ValidateType::CREDIT_CARD   => [
             'validator' => 'Phalcon\\Validation\\Validator\\CreditCard'
         ],
         // Checks if a value is a valid date
-        'date'         => [
+        ValidateType::DATE          => [
             'validator' => 'Phalcon\\Validation\\Validator\\Date'
         ],
         // Check for numeric character(s)
-        'digit'        => [
+        ValidateType::DIGIT         => [
             'validator' => 'Phalcon\\Validation\\Validator\\Digit'
         ],
         // Checks if a value has a correct e-mail format
-        'email'        => [
+        ValidateType::EMAIL         => [
             'validator' => 'Phalcon\\Validation\\Validator\\Email'
         ],
         // Check if a value is not included into a list of values
-        'exclusionin'  => [
+        ValidateType::EXCLUSION_IN  => [
             'validator' => 'Phalcon\\Validation\\Validator\\ExclusionIn'
         ],
         // Checks if a value has a correct file
-        'file'         => [
+        ValidateType::FILE          => [
             'validator' => 'Phalcon\\Validation\\Validator\\File'
         ],
         // Checks if a value is identical to other
-        'identical'    => [
+        ValidateType::IDENTICAL     => [
             'validator' => 'Phalcon\\Validation\\Validator\\Identical'
         ],
         // Check if a value is included into a list of values
-        'inclusionin'  => [
+        ValidateType:: INCLUSION_IN => [
             'validator' => 'Phalcon\\Validation\\Validator\\InclusionIn'
         ],
         // Check for a valid numeric value
-        'numericality' => [
+        ValidateType::NUMERICALITY  => [
             'validator' => 'Phalcon\\Validation\\Validator\\Numericality'
         ],
         // Validates that a value is not null or empty string
-        'presenceof'   => [
+        ValidateType::PRESENCE_OF   => [
             'validator' => 'Phalcon\\Validation\\Validator\\PresenceOf'
         ],
         // Allows validate if the value of a field matches a regular expression
-        'regex'        => [
+        ValidateType:: REGEX        => [
             'validator' => 'Phalcon\\Validation\\Validator\\Regex'
         ],
         // Validates that a string has the specified maximum and minimum constraints
-        'stringlength' => [
+        ValidateType::STRING_LENGTH => [
             'validator' => 'Phalcon\\Validation\\Validator\\StringLength'
         ],
         // Check that a field is unique in the related table
-        'uniqueness'   => [
+        ValidateType:: UNIQUENESS   => [
             'validator' => 'Phalcon\\Validation\\Validator\\Uniqueness'
         ],
         // Checks if a value has a url format
-        'url'          => [
+        ValidateType::URL           => [
             'validator' => 'Phalcon\\Validation\\Validator\\Url'
         ]
     ];
@@ -210,10 +210,10 @@ class Validation extends \Phalcon\Validation
      *
      * @param array $rules
      *
-     * @return object
+     * @return Validation
      * @throws \Exception
      */
-    public function addRules(array $rules)
+    protected function addRules(array $rules)
     {
         $types = self::$validation_types;
         foreach ($rules as $rule) {
@@ -231,53 +231,53 @@ class Validation extends \Phalcon\Validation
             $rule[4]               = isset($rule[4]) ? $rule[4] : 0;
             $options['allowEmpty'] = $rule[4] == 0 ? true : false;
             switch ($type) {
-                case 'alnum':
-                case 'alpha':
-                case 'creditcard':
-                case 'digit':
-                case 'email':
-                case 'numericality':
-                case 'url':
+                case ValidateType::ALNUM:
+                case ValidateType::ALPHA:
+                case ValidateType::CREDIT_CARD:
+                case ValidateType::DIGIT:
+                case ValidateType::EMAIL:
+                case ValidateType::NUMERICALITY:
+                case ValidateType::URL:
                     break;
-                case 'confirmation':
+                case ValidateType::CONFIRMATION:
                     $options['with'] = $rule[3];
                     break;
-                case 'date':
+                case ValidateType::DATE:
                     $options['format'] = $rule[3];
                     break;
-                case 'exclusionin':
-                case 'inclusionin':
+                case ValidateType::EXCLUSION_IN:
+                case ValidateType::INCLUSION_IN:
                     $options['domain'] = $rule[3];
                     break;
-                case 'presenceof':
+                case  ValidateType::PRESENCE_OF:
                     $options['allowEmpty'] = false;
                     break;
-                case 'identical':
+                case ValidateType::IDENTICAL:
                     $options['accepted'] = $rule[3];
                     break;
-                case 'regex':
+                case ValidateType::REGEX:
                     $options['pattern'] = $rule[3];
                     break;
-                case 'between':
+                case ValidateType::BETWEEN:
                     $options['minimum'] = $rule[3][0] ?? null;
                     $options['maximum'] = $rule[3][1] ?? null;
                     break;
-                case 'callback':
+                case ValidateType::CALLBACK:
                     if (!is_object($rule[3])) {
                         throw new \Exception($rule[0] . ' 的验证规则必须是一个对象');
                     }
                     $options['callback'] = $rule[3];
                     break;
-                case 'file':
+                case ValidateType::FILE:
                     if (!is_array($rule[3])) {
                         throw new \Exception($rule[0] . ' 的验证规则必须是一个数组');
                     }
                     $options = array_merge($options, $rule[3]);
                     break;
-                case 'stringlength':
-                    $options = $this->setStringLengthOpions($rule, $options);
+                case ValidateType::STRING_LENGTH:
+                    $options = $this->setStringLengthOptions($rule, $options);
                     break;
-                case 'uniqueness':
+                case ValidateType::UNIQUENESS:
                     $options = $this->setUniquenessOptions($rule, $options);
                     if (isset($rule[5])) {
                         unset($rule[5]);
@@ -294,7 +294,17 @@ class Validation extends \Phalcon\Validation
         return $this;
     }
 
-    protected function setStringLengthOpions(array $rule, array $options = [])
+    /**
+     * @desc 设置字符串长度配置
+     *
+     * @param array $rule
+     * @param array $options
+     *
+     * @return array
+     * @throws  \Exception
+     *
+     */
+    protected function setStringLengthOptions(array $rule, array $options = [])
     {
         if (is_array($rule[3])) {
             $options['min'] = $rule[3][0] ?? 0;
@@ -327,12 +337,12 @@ class Validation extends \Phalcon\Validation
                         $messageKey = 'messageMaximum';
                         break;
                     default:
-                        throw new Exception('未检测到“>=”或“<=”');
+                        throw new \Exception('未检测到“>=”或“<=”');
                 }
                 $options[$lenNumKey]  = $lenNum;
                 $options[$messageKey] = $rule[2];
             } else {
-                throw new Exception('验证 “' . $rule[0] . '” stringlength参数类型错误');
+                throw new \Exception('验证 “' . $rule[0] . '” stringlength参数类型错误');
             }
         }
         return $options;
@@ -345,6 +355,7 @@ class Validation extends \Phalcon\Validation
      * @param array $options 选项参数
      *
      * @return array
+     *
      */
     protected function setUniquenessOptions(array $rule, array $options = [])
     {
@@ -355,5 +366,30 @@ class Validation extends \Phalcon\Validation
             $options = array_merge($options, $rule[5]);
         }
         return $options;
+    }
+
+    /**
+     * @desc 验证
+     *
+     * @param array $data
+     * @param array $entity
+     *
+     * @return \Phalcon\Validation\Message\Group
+     * @throws \Exception
+     */
+    public function validate($data = null, $entity = null)
+    {
+        try {
+            if (!is_array($data) || count($data) == 0) {
+                throw new \Exception('数据不能为空');
+            }
+            if (!is_array($entity) || count($entity) == 0) {
+                throw new \Exception('验证规则不能为空');
+            }
+            $this->addRules($entity);
+            return parent::validate($data);
+        } catch (\Exception $ex) {
+            throw new \Exception('验证失败:'.$ex->getMessage());
+        }
     }
 }

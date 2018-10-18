@@ -7,6 +7,7 @@ use Backend\Components\Auth\Manager;
 use Backend\Components\Http\ErrorHelper;
 use Backend\Components\Http\Request;
 use Backend\Components\Http\Response;
+use Backend\Components\Validation\Validation;
 use Backend\Constant\Services;
 use Backend\Middleware\AclMiddleWare;
 use Backend\Middleware\AuthTokenMiddleWare;
@@ -157,8 +158,9 @@ class Bootstrap extends Application
                 'charset'  => 'utf8mb4',
                 'options'  => [
                     \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4',
+                    \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
                     \PDO::ATTR_EMULATE_PREPARES   => false,
-                    \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
+                    \PDO::ATTR_STRINGIFY_FETCHES  => false
                 ]
             ]);
 
@@ -311,7 +313,7 @@ class Bootstrap extends Application
             $modelManager->setEventsManager($di->get(Services::EVENTS_MANAGER));
             return $modelManager;
         }, true);
-
+        $di->set(Services::VALIDATION, new Validation);
         $this->setDI($di);
     }
 }

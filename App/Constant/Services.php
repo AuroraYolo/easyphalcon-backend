@@ -31,6 +31,7 @@ class Services
     const ACL = 'acl';
     const AUTH_MANAGER = "authManager";
     const JWT = "jwt";
+    const VALIDATION = 'validation';
 
     const ERROR_HELPER = "errorHelper";
     const FORMAT_HELPER = "formatHelper";

@@ -5,6 +5,7 @@ use Backend\Components\Auth\Session;
 use Backend\Components\ErrorCode;
 use Backend\Components\Exception\ApiException;
 use Backend\Controllers\BaseController;
+use Backend\Models\Sys\Manage;
 use Backend\Services\UserService;
 
 /**

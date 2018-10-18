@@ -23,7 +23,6 @@ class Response extends \Phalcon\Http\Response
         $errorHelper = $this->getDI()->getShared(Services::ERROR_HELPER);
         $errorCode   = $throwable->getCode();
         $errorMsg    = $throwable->getMessage();
-        $statusCode  = 500;
         if ($errorHelper && $errorHelper->has($errorCode)) {
             $entityMsg  = $errorHelper->get($errorCode);
             $statusCode = $entityMsg['statusCode'];

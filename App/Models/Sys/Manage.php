@@ -10,9 +10,24 @@ class Manage extends Base
     }
 
     /**
-     * @var int $id
+     * @Primary
+     * @Identity
+     * @Column(type='int', length=11, nullable=true)
      */
     public $id;
+    /**
+     * @Column(type='varchar',length=255, nullable=true)
+     */
+    public $ms_name;
+    /**
+     * @Column(type='varchar',length=255, nullable=true)
+     */
+    public $ms_desc;
+
+    /**
+     * @Column(type='varchar',length=255, nullable=true)
+     */
+    public $ms_domain;
 
     public function getSource()
     {

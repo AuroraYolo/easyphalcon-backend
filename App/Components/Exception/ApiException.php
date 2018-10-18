@@ -9,7 +9,6 @@ class ApiException extends \Exception
     public function __construct($code, $message = null, $developerInfo = null, $userInfo = null)
     {
         parent::__construct($message, $code);
-
         $this->developerInfo = $developerInfo;
         $this->userInfo      = $userInfo;
     }
