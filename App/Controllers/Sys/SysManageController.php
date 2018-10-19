@@ -32,14 +32,14 @@ class SysManageController extends BaseController
     /**
      * @Route(
      *     '/edit',
-     *     methods = {'POST'}
+     *     methods = {'PUT'}
      * )
      * @throws \Exception
      * @return array|string
      */
     public function editAction() : ?array
     {
-        $data     = $this->request->getPostedData('post');
+        $data     = $this->request->getPostedData('put');
         $messages = $this->validation->validate($data, [
             ['id', ValidateType::PRESENCE_OF, 'ID不能为空'],
             ['ms_name', ValidateType::PRESENCE_OF, '系统名称不能为空'],
@@ -127,4 +127,13 @@ class SysManageController extends BaseController
         }
     }
 
+    /**
+     * @Get(
+     *     '/gets/{page:[0-9]+}'
+     * )
+     */
+    public function getsAction($page)
+    {
+        var_dump($page);
+    }
 }
